@@ -1,0 +1,45 @@
+name: Compilar APK con Buildozer
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias del sistema operativo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git ffmpeg \
+            libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-portmidi-dev \
+            libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev \
+            libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+            unzip zip
+
+      - name: Instalar Cython y Buildozer
+        run: |
+          pip install --upgrade pip
+          pip install "cython<3.0.0"
+          pip install buildozer
+
+      - name: Construir la APK con Buildozer
+        run: |
+          yes | buildozer -v android debug
+
+      - name: Subir el APK como artefacto de descarga
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: bin/*.apk
