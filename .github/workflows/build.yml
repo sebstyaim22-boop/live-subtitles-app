@@ -18,20 +18,15 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Instalar Java (OpenJDK 17) y dependencias
+      - name: Instalar dependencias del sistema y Java
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            build-essential git ffmpeg \
-            openjdk-17-jdk \
+            build-essential git ffmpeg openjdk-17-jdk \
             libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libportmidi-dev \
             libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev \
             libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
             unzip zip
-
-      - name: Configurar variables de entorno de Java
-        run: |
-          echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
 
       - name: Instalar Cython y Buildozer
         run: |
@@ -39,11 +34,10 @@ jobs:
           pip install "cython<3.0.0"
           pip install --upgrade buildozer
 
-      - name: Configurar aceptación de licencias de Android y compilar
+      - name: Compilar APK con Buildozer
         run: |
-          mkdir -p ~/.android
-          echo "### License accepted" > ~/.android/repositories.cfg
-          buildozer -v android debug
+          set +o pipefail
+          yes | buildozer -v android debug
 
       - name: Subir el APK como artefacto
         uses: actions/upload-artifact@v4
