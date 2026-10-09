@@ -35,7 +35,7 @@ android.api = 33
 # (int) Minimum API your APK / AAB will support.
 android.minapi = 24
 
-# (str) Android NDK version to use
+# (str) Android NDK version to use (Locked to 25b for stability with Kivy)
 android.ndk = 25b
 
 # (bool) Automatically accept SDK license agreements
