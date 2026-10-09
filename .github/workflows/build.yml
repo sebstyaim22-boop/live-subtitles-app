@@ -30,15 +30,15 @@ jobs:
 
       - name: Instalar Cython y Buildozer
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install "cython<3.0.0"
-          pip install buildozer
+          pip install --upgrade buildozer
 
       - name: Construir la APK con Buildozer
         run: |
-          yes | buildozer -v android debug
+          buildozer -v android debug
 
-      - name: Subir el APK como artefacto de descarga
+      - name: Subir el APK como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
