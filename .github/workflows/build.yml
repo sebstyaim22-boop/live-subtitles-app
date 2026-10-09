@@ -34,12 +34,10 @@ jobs:
           pip install "cython<3.0.0"
           pip install --upgrade buildozer
 
-      - name: Construir la APK con Buildozer
+      - name: Compilar APK con Buildozer
         run: |
-          buildozer -v android debug
-
-      - name: Subir el APK como artefacto
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug-apk
-          path: bin/*.apk
+          # Creamos un bucle que envíe 'y' continuamente para aceptar las licencias de Android SDK sin romper el flujo
+          while true; do
+            echo "y"
+            sleep 2
+          done | buildozer -v android debug
