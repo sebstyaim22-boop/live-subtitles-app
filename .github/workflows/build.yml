@@ -13,12 +13,16 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Instalar dependencias del sistema y Java
+      - name: Limpiar SDK/NDK globales preinstalados para evitar conflictos
+        run: |
+          sudo rm -rf /usr/local/lib/android/sdk
+
+      - name: Instalar dependencias del sistema y Java (OpenJDK 17)
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -34,10 +38,10 @@ jobs:
           pip install "cython<3.0.0"
           pip install --upgrade buildozer
 
-      - name: Compilar APK con Buildozer
+      - name: Compilar APK con Buildozer (Modo Depuración)
         run: buildozer -v android debug
 
-      - name: Subir el APK como artefacto
+      - name: Subir el APK generado como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
