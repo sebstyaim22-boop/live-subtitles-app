@@ -1,32 +1,55 @@
 [app]
+# (str) Title of your application
+title = Live Subtitles
 
-# Nombre de tu aplicación
-title = Live Subtitles Gemini
+# (str) Package name
 package.name = livesubtitles
-package.domain = org.test
 
-# Archivos de código fuente a incluir
+# (str) Package domain (needed for android/ios packaging)
+package.domain = org.sebstyaim22
+
+# (str) Source code where the main.py live
 source.dir = .
+
+# (list) Source files to include (let empty to include all the files)
 source.include_exts = py,png,jpg,kv,atlas
 
-# Versión
+# (str) Application versioning
 version = 0.1
 
-# Dependencias requeridas en Python
+# (list) Application requirements
 requirements = python3,kivy==2.3.0,kivymd==1.2.0,requests,urllib3,chardet,certifi,idna
 
-# Permisos requeridos en Android
-android.permissions = INTERNET, RECORD_AUDIO, SYSTEM_ALERT_WINDOW
-
-# Orientación de la pantalla
+# (str) Supported orientations (landscape, sensorLandscape, portrait or all)
 orientation = portrait
 
-# Ajustes de Android SDK / NDK
+# (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
+
+# (list) Permissions
+android.permissions = INTERNET, RECORD_AUDIO
+
+# (int) Target Android API, should be as high as possible.
+android.api = 33
+
+# (int) Minimum API your APK / AAB will support.
+android.minapi = 24
+
+# (str) Android NDK version to use
+android.ndk = 25b
+
+# (bool) Automatically accept SDK license agreements
+android.accept_sdk_license = True
+
+# (str) Android entry point, default is ok for Kivy-based app
+android.entrypoint = org.kivy.android.PythonActivity
+
+# (list) The Android archs to build for
 android.archs = arm64-v8a
 
 [buildozer]
-
-# Nivel de detalle en la consola de compilación (2 = detallado)
+# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
+
+# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
